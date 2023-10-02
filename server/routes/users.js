@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import {User} from "../userModel.js"
-import {auth} from "../middleware/auth.js"
+import {authUser} from "../middleware/auth.js"
 
 router.post('/users',async(req,res)=>{
   try {
@@ -26,20 +26,20 @@ router.post('/login',async(req,res)=>{
   }
 })
 
-router.post('/auto-login', auth, async (req, res) => {
+router.post('/auto-login', authUser, async (req, res) => {
 
   res.send(req.user)
 
 })
 
-router.post('/logout',auth, async (req, res) => {
+router.post('/logout',authUser, async (req, res) => {
   const user =req.user;
   user.token = '';
   await user.save();
   res.status(200).send()
 })
 
-router.post('/add-favorites',auth, async (req, res)=>{
+router.post('/add-favorites',authUser, async (req, res)=>{
 
   const {dressId}=req.body;
   const user =req.user;
@@ -49,7 +49,7 @@ router.post('/add-favorites',auth, async (req, res)=>{
 
 })
 
-router.post('/remove-favorites',auth, async (req, res)=>{
+router.post('/remove-favorites',authUser, async (req, res)=>{
 
   const {dressId}=req.body;
   const user =req.user;
